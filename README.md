@@ -1,1 +1,1 @@
-# scfi
+# DeFAi platform
