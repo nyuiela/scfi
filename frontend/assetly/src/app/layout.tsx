@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ParticleConnectkit } from "@/context/connectkit";
+import { CombinedProvider } from "@/lib/hooks/usePersistence";
 
 const geistSans = Geist({
    variable: "--font-geist-sans",
@@ -20,17 +20,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
    children,
-}: Readonly<{
+}: {
    children: React.ReactNode;
-}>) {
+}) {
    return (
       <html lang="en">
-         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-         >
-            <ParticleConnectkit>
+         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <CombinedProvider>
                {children}
-            </ParticleConnectkit>
+            </CombinedProvider>
          </body>
       </html>
    );
