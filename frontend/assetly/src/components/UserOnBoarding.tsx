@@ -1,144 +1,97 @@
 'use client';
 import { useState } from 'react';
+import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { Card } from '@/components/ui/card';
-import { ChevronRight, BookOpen, LineChart, TrendingUp, UserCog, Users } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import MaxWidthWrapper from './MaxWidthWrapper';
+import { Card } from './ui/card';
 
 const UserOnboarding = () => {
-  const [step, setStep] = useState(1);
-  const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const router = useRouter();
 
-  const tradingLevels = [
+  const countries = [
     {
-      id: 'beginner',
-      title: 'Beginner',
-      description: 'New to trading, learning the basics',
-      icon: BookOpen,
-      image: 'https://www.dronakul.com/sitepad-data/uploads/2024/05/vecteezy_buy-or-sell-in-stock-market-and-crypto-currency-trading_.jpg'
+      id: 'nigeria',
+      title: 'Nigeria',
+      description: 'Access Nigerian Real World Assets',
+      icon: 'https://uxwing.com/wp-content/themes/uxwing/download/flags-landmarks/nigeria-flag-icon.png',
+      image: 'https://cdn.vanguardngr.com/wp-content/uploads/2024/12/image-5.png'
     },
     {
-      id: 'intermediate',
-      title: 'Intermediate',
-      description: 'Familiar with trading concepts',
-      icon: LineChart,
-      image: '/intermediate.png'
+      id: 'ghana',
+      title: 'Ghana',
+      description: 'Explore Ghanaian Real World Assets',
+      icon: 'https://uxwing.com/wp-content/themes/uxwing/download/flags-landmarks/ghana-flag-icon.png',
+      image: 'https://tracextech.com/wp-content/uploads/2024/06/Cocoa-Traceability-Challenges.png'
     },
     {
-      id: 'pro',
-      title: 'Professional',
-      description: 'Experienced trader with proven track record',
-      icon: TrendingUp,
-      image: 'https://tradebrains.in/wp-content/uploads/2020/10/How-to-do-Intraday-Trading-for-Beginners-In-India-cover.jpg'
+      id: 'kenya',
+      title: 'Kenya',
+      description: 'Discover Kenyan Real World Assets',
+      icon: 'https://w1.pngwing.com/pngs/844/356/png-transparent-background-green-kenya-flag-of-kenya-national-flag-red-symbol-rectangle.png',
+      image: 'https://mynified.ca/cdn/shop/collections/DIGESTIVE_TEA.png?v=1665202296'
     }
   ];
 
-  const accountTypes = [
-    {
-      id: 'standard',
-      title: 'Standard Trader',
-      description: 'Access AI-powered trading suggestions and portfolio management',
-      icon: Users,
-      image: 'https://img.freepik.com/premium-vector/afro-american-business-man-teal-background-vector-illustration_24877-20228.jpg?uid=R176055277&ga=GA1.1.842935572.1732572644&semt=ais_hybrid'
-    },
-    {
-      id: 'admin',
-      title: 'Trade Admin',
-      description: 'Manage multiple portfolios and create trading strategies',
-      icon: UserCog,
-      image: 'https://img.freepik.com/free-vector/network-businessminded-people_1308-37983.jpg?t=st=1734409314~exp=1734412914~hmac=b617be78b220e2688399010d6a0a46769857d63d528d18acacea232ba8b0e050&w=740'
-    }
-  ];
-
-  const handleLevelSelect = (level: string) => {
-    setSelectedLevel(level);
-    setStep(2);
-  };
-
-  const handleAccountTypeSelect = (type: string) => {
-    if (type === 'standard') {
-      router.push('/ai-chats');
-    } else {
-      router.push('/trade-admin');
-    }
+  const handleCountrySelect = (countryId: string) => {
+    setSelectedCountry(countryId);
+    // Navigate to the RWA assets page with the selected country as a query parameter
+    router.push(`/rwa-assets?country=${countryId}`);
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gray-50">
+    <div className="min-h-[calc(100vh-4rem)]">
       <MaxWidthWrapper>
         <div className="py-16">
-          {step === 1 ? (
-            <div className="space-y-8">
-              <div className="text-center">
-                <h1 className="text-3xl font-bold mb-3">Welcome! Let's get started</h1>
-                <p className="text-gray-600">What's your trading experience level?</p>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                {tradingLevels.map((level) => {
-                  const Icon = level.icon;
-                  return (
-                    <Card
-                      key={level.id}
-                      className={`relative p-6 cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                        selectedLevel === level.id ? 'ring-2 ring-purple-500' : ''
-                      }`}
-                      onClick={() => handleLevelSelect(level.id)}
-                    >
-                      <div className="flex flex-col items-center text-center space-y-4">
-                        <div className="p-3 rounded-full bg-purple-100">
-                          <Icon className="w-6 h-6 text-purple-600" />
-                        </div>
-                        <h3 className="text-xl font-semibold">{level.title}</h3>
-                        <p className="text-gray-600 text-sm">{level.description}</p>
-                        <img
-                          src={level.image}
-                          alt={level.title}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                        <ChevronRight className="absolute right-4 top-4 w-5 h-5 text-gray-400" />
-                      </div>
-                    </Card>
-                  );
-                })}
-              </div>
+          <div className="space-y-8">
+            <div className="text-center text-white">
+              <h1 className="text-3xl font-bold mb-3">Select Your Region</h1>
+              <p className="text-gray-300">Choose a country to view available real world assets</p>
             </div>
-          ) : (
-            <div className="space-y-8">
-              <div className="text-center">
-                <h1 className="text-3xl font-bold mb-3">Choose Your Account Type</h1>
-                <p className="text-gray-600">Select the type of trading account you want to set up</p>
-              </div>
 
-              <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                {accountTypes.map((type) => {
-                  const Icon = type.icon;
-                  return (
-                    <Card
-                      key={type.id}
-                      className="relative p-6 cursor-pointer transition-all duration-200 hover:shadow-lg"
-                      onClick={() => handleAccountTypeSelect(type.id)}
-                    >
-                      <div className="flex flex-col items-center text-center space-y-4">
-                        <div className="p-3 rounded-full bg-purple-100">
-                          <Icon className="w-6 h-6 text-purple-600" />
-                        </div>
-                        <h3 className="text-xl font-semibold">{type.title}</h3>
-                        <p className="text-gray-600 text-sm">{type.description}</p>
-                        <img
-                          src={type.image}
-                          alt={type.title}
-                          className="w-full h-32 object-cover rounded-lg"
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {countries.map((country) => {
+                const Icon = country.icon;
+                return (
+                  <Card
+                    key={country.id}
+                    className={`relative p-8 py-11 cursor-pointer transition-all duration-200 hover:shadow-lg ${
+                      selectedCountry === country.id ? 'ring-2 ring-purple-500' : ''
+                    }`}
+                    onClick={() => handleCountrySelect(country.id)}
+                  >
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      <div className="p-3 rounded-full bg-purple-100">
+                      <Image
+                          src={Icon}
+                          alt={country.title}
+                          width={40}
+                          height={40}
+                          className="object-contain rounded-lg w-8 h-8"
+                          priority={true}
+                          unoptimized={true}
                         />
-                        <ChevronRight className="absolute right-4 top-4 w-5 h-5 text-gray-400" />
                       </div>
-                    </Card>
-                  );
-                })}
-              </div>
+                      <h3 className="text-xl font-semibold">{country.title}</h3>
+                      <p className="text-gray-600 text-sm">{country.description}</p>
+                      <div className="relative w-full h-32">
+                        <Image
+                          src={country.image}
+                          alt={country.title}
+                          className="object-cover rounded-lg"
+                          fill
+                          priority={true}
+                          unoptimized={true}
+                        />
+                      </div>
+                      <ChevronRight className="absolute right-4 top-4 w-5 h-5 text-gray-400" />
+                    </div>
+                  </Card>
+                );
+              })}
             </div>
-          )}
+          </div>
         </div>
       </MaxWidthWrapper>
     </div>
