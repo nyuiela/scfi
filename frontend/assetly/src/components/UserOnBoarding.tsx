@@ -37,7 +37,7 @@ const UserOnboarding = () => {
   const handleCountrySelect = (countryId: string) => {
     setSelectedCountry(countryId);
     // Navigate to the RWA assets page with the selected country as a query parameter
-    router.push(`/rwa-assets?country=${countryId}`);
+    router.push(`/dashboard/rwa-assets?country=${countryId}`);
   };
 
   return (

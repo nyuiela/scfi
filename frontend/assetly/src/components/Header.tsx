@@ -47,7 +47,7 @@ const Header = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative px-4 py-2 text-base font-medium text-gray-200 rounded-md hover:text-purple-600 hover:bg-gray-200 transition-all duration-200 group"
+                  className="relative px-4 py-2 text-base font-medium text-gray-900 rounded-md hover:text-purple-600 hover:bg-gray-200 transition-all duration-200 group"
                 >
                   {link.label}
                   <span className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-purple-500/0 via-purple-500/70 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />

@@ -1,5 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { CardPlaceholder, RegularCard } from '@/components/Cards';
@@ -139,7 +140,7 @@ export default function RWAAssetsPage() {
 
   return (
     <MaxWidthWrapper>
-        <div className="container mx-auto py-8 mb-40">
+        <div className="container mx-auto py-8 mb-40 -mt-20">
         <Header />
       <h1 className="text-3xl font-bold mb-8">Real World Assets</h1>
       
@@ -152,29 +153,35 @@ export default function RWAAssetsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {assets.map((asset) => (
-            <RegularCard key={asset.id}>
-              <div className="relative aspect-square w-full">
-                <Image
-                  src={asset.image}
-                  alt={asset.name}
-                  fill
-                  className="object-cover"
-                  priority={true}
-                  unoptimized={true}
-                />
-              </div>
-              <div className="p-4 space-y-2">
-                <h3 className="text-xl font-semibold">{asset.name}</h3>
-                <p className="text-gray-600">{asset.type}</p>
-                <div className="flex justify-between items-center">
-                  <div className="space-y-1">
-                    <p className="text-sm text-gray-500">Network: {asset.network}</p>
-                    <p className="text-sm text-gray-500">Token: {asset.tokenType}</p>
-                  </div>
-                  <p className="text-base font-bold">Value: ${asset.price.toLocaleString()}</p>
+            <Link 
+              href={`/dashboard/rwa-asset/${asset.id}`} 
+              key={asset.id}
+              className="hover:opacity-90 transition-opacity"
+            >
+              <RegularCard>
+                <div className="relative aspect-square w-full">
+                  <Image
+                    src={asset.image}
+                    alt={asset.name}
+                    fill
+                    className="object-cover"
+                    priority={true}
+                    unoptimized={true}
+                  />
                 </div>
-              </div>
-            </RegularCard>
+                <div className="p-4 space-y-2">
+                  <h3 className="text-xl font-semibold">{asset.name}</h3>
+                  <p className="text-gray-600">{asset.type}</p>
+                  <div className="flex justify-between items-center">
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-500">Network: {asset.network}</p>
+                      <p className="text-sm text-gray-500">Token: {asset.tokenType}</p>
+                    </div>
+                    <p className="text-base font-bold">Value: ${asset.price.toLocaleString()}</p>
+                  </div>
+                </div>
+              </RegularCard>
+            </Link>
           ))}
         </div>
       )}
