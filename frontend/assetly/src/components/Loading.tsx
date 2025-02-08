@@ -7,11 +7,12 @@ const Loading = () => {
       <div className="flex flex-col items-center">
         <div className="animate-spin">
         <Image
-              src="/logo.png"
+              src="https://i.imgur.com/IcF1dcF.png"
               alt="Login illustration"
               width={800}
               height={800}
               priority={true}
+              unoptimized={true}
               className="w-full h-full object-cover"
             />
         </div>
