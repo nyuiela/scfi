@@ -46,9 +46,9 @@ const items = [
 ]
 export function AppSidebar() {
   return (
-    <Sidebar className="">
-      <SidebarContent>
-        <SidebarGroup>
+    <Sidebar className="bg-slate-950" collapsible='icon'>
+      <SidebarContent className="bg-yellow-400">
+        <SidebarGroup className="bg-green-600">
           <SidebarGroupLabel>Aseetly</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
