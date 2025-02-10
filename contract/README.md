@@ -149,50 +149,11 @@ rwa -> RWAManager -> OracleManager
 - borrow() // rwa
 - repay() // loanId;
 -
+## today tomorrow
+- subs structure for rwacontract
+- lending logic
+- reveserpool --- lp
 
-LendingContract == lendingLogic
-reservePoolContract ==reserveLogic
-StockPoolcontract == poolCreationLogic
-Buy
-function pruneValidatorList() external {
-uint256 listCount = validatorCount;
-//address[] memory proxies = new address[](stakingProxyCount);
-
-        for (uint256 i = 0; i < proxies.length; i++) proxies[i] = stakingProxies[i];
-        for (uint256 i = 0; i < listCount; i++) {
-            address vali = validators[listCount - 1 - i];
-            uint256[] memory rewards = new uint256[](proxies.length);
-            address[] memory valis = new address[](proxies.length);
-            for (uint256 j = 0; j < proxies.length; j++) {
-                rewards[j] = IRoninValidator(roninStaking).getReward(vali, proxies[j]);
-                valis[j] = vali;
-            }
-            uint256[] memory stakingTotals = IRoninValidator(roninStaking).getManyStakingAmounts(valis, proxies);
-            bool canPrune = true;
-            for (uint256 j = 0; j < proxies.length; j++)
-                if (rewards[j] != 0 || stakingTotals[j] != 0) {
-                    canPrune = false;
-                    break;
-                }
-            if (canPrune) _removeValidator(vali);
-        }
-    }
-
-
-
-    function _removeValidator(address _validator) internal {
-        if (validatorStakeActive[_validator]) {
-            uint256 index = validatorIndex[_validator];
-            address lastValidator = validators[--validatorCount];
-            validatorStakeActive[_validator] = false;
-            validators[index] = lastValidator;
-            [0,1,2,3,4,5]
-            4
-            5 = 5
-            5
-            0,1,2,3,4,
-
-            validatorIndex[lastValidator] = index;
-            validators.pop();
-        }
-    }
+-- lending logic
+-- reserve logic
+-- pool
