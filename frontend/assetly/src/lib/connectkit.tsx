@@ -61,9 +61,9 @@ export const config = createConfig({
     evmWalletConnectors({
       // TODO: replace it with your app metadata.
       metadata: {
-        name: 'PULSE TRADE AI',
-        icon: typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : '',
-        description: 'An AI-powered trading platform.',
+        name: 'ASSETLY APP',
+        icon: typeof window !== 'undefined' ? `${window.location.origin}/vercel.svg` : '',
+        description: 'An AI-powered RWA trading platform.',
         url: typeof window !== 'undefined' ? window.location.origin : '',
       },
       walletConnectProjectId: walletConnectProjectId,

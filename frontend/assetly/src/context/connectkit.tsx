@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { ConnectKitProvider, createConfig } from '@particle-network/connectkit';
