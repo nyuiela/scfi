@@ -154,6 +154,31 @@ rwa -> RWAManager -> OracleManager
 - lending logic
 - reveserpool --- lp
 
--- lending logic
--- reserve logic
--- pool
+## borrowing logic
+-- function addCollateral() 
+-- function borrow()
+-- function repay()
+-- getLoanDetail(uint256)
+-- calculateLoanAmount() // colateralValue .....
+-- liquidationThreshold()
+-- _lockRWA() internal...
+-- _releaseRWA() internal
+-- CalculateLPfee
+-- liquidationType1
+-- liquidationType2
+
+## reserve logic (ERC20)
+----poool--- 5 lp  totalSupply = 5000  1= 1000 2= 1500 3= 500 4=1800 5=200
+-- function _deposit() internal
+-- function _withdraw() internal
+-- calculateFee
+-- calculatelpshare
+-- totalreservebalance
+-- calulateAccumulatedFee
+-- getlp
+
+## pool
+-- deposit()
+-- function withdraw
+-- distributelpfee
+                                                                                                                        

@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-library Decimals {
+contract FeeCalculation {
     uint256 public constant BIPS = 10_000; // 100%
     uint256 public constant fee = 10000; // shouldnt be more than 100%
     uint256 public constant liquidationThreshold = 10000; // shouldnt be below 1

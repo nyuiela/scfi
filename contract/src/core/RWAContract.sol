@@ -73,7 +73,7 @@ contract RWAContract is ERC1155, Ownable, Pausable {
 
     mapping(uint256 => address) private locker;
 
-    function lockRWA(uint256 _id) internal {
+    function lockRWA(uint256 _id) external {
         require(locker[_id] == msg.sender, "");
         RWAStruct storage crwa = rwa[_id];
         crwa.locked = true;
@@ -89,7 +89,7 @@ contract RWAContract is ERC1155, Ownable, Pausable {
         locker[_id] = assignee;
     }
 
-    function _releaseRWA(uint256 _id) external /**onlyOwner - not quite*/ {
+    function releaseRWA(uint256 _id) external /**onlyOwner - not quite*/ {
         require(locker[_id] == msg.sender, "");
         RWAStruct storage crwa = rwa[_id];
         crwa.locked = false;
