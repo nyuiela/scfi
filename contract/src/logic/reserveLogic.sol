@@ -53,6 +53,7 @@ modifier isValidAmount(uint256 amount){
   function _withdraw(uint256 _klpTOkens) internal returns(uint256 _amount){
     require(token.balanceOf(msg.sender) > _klpTokens);
     (_amount) = calculatelpshare(_klpTokens); 
+    token.burn(_amount, msg.sender);
     payable.transfer(address(this), msg.sender, _amount);
   }
   
