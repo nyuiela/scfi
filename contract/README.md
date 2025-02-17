@@ -29,9 +29,7 @@
 --> lending
 
 - borrow against collateral
--
-
---> liquidization
+- --> liquidization
 
 - rolling method to extend loan and increase interest as incentive
 - liquidization of loan...
@@ -149,28 +147,32 @@ rwa -> RWAManager -> OracleManager
 - borrow() // rwa
 - repay() // loanId;
 -
+
 ## today tomorrow
+
 - subs structure for rwacontract
 - lending logic
 - reveserpool --- lp
 
 ## borrowing logic
--- function addCollateral() 
+
+-- function addCollateral()
 -- function borrow()
 -- function repay()
 -- getLoanDetail(uint256)
 -- calculateLoanAmount() // colateralValue .....
 -- liquidationThreshold()
--- _lockRWA() internal...
--- _releaseRWA() internal
+-- \_lockRWA() internal...
+-- \_releaseRWA() internal
 -- CalculateLPfee
 -- liquidationType1
 -- liquidationType2
 
 ## reserve logic (ERC20)
-----poool--- 5 lp  totalSupply = 5000  1= 1000 2= 1500 3= 500 4=1800 5=200
--- function _deposit() internal
--- function _withdraw() internal
+
+----poool--- 5 lp totalSupply = 5000 1= 1000 2= 1500 3= 500 4=1800 5=200
+-- function \_deposit() internal
+-- function \_withdraw() internal
 -- calculateFee
 -- calculatelpshare
 -- totalreservebalance
@@ -178,7 +180,7 @@ rwa -> RWAManager -> OracleManager
 -- getlp
 
 ## pool
+
 -- deposit()
 -- function withdraw
 -- distributelpfee
-                                                                                                                        
