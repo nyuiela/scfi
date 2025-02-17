@@ -1,0 +1,17 @@
+{
+  "name": "prediction",
+  "version": "1.0.0",
+  "description": "prediction model",
+  "license": "ISC",
+  "author": "kish",
+  "type": "module",
+  "main": "stock-prediction-model.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "brain.js": "^2.0.0-beta.24",
+    "dotenv": "^16.4.7"
+  }
+}

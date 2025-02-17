@@ -48,6 +48,7 @@ const Header = () => {
                 <Link
                   key={link.href}
                   href={link.href}
+                  prefetch={true}
                   className="relative px-4 py-2 text-base font-medium text-gray-900 rounded-md hover:text-purple-600 hover:bg-gray-200 transition-all duration-200 group"
                 >
                   {link.label}

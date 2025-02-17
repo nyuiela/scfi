@@ -3,7 +3,9 @@
 import React from 'react';
 
 import { ConnectKitProvider, createConfig } from '@particle-network/connectkit';
+
 import { authWalletConnectors } from '@particle-network/connectkit/auth';
+import { particleAuth } from '@particle-network/auth-core';
 import type { Chain } from '@particle-network/connectkit/chains';
 // embedded wallet start
 import { EntryPosition, wallet } from '@particle-network/connectkit/wallet';
@@ -29,6 +31,25 @@ if (!projectId || !clientKey || !appId) {
   throw new Error('Please configure the Particle project in .env first!');
 }
 
+// const customChain = defineChain({
+//   id: 123456, // Unique chain ID
+//   name: 'Custom Chain',
+//   nativeCurrency: {
+//     decimals: 18,
+//     name: 'Custom Token',
+//     symbol: 'CTK',
+//   },
+//   rpcUrls: {
+//     default: {
+//       http: ['https://custom-rpc-url.com'],
+//     },
+//   },
+//   blockExplorers: {
+//     default: { name: 'Explorer', url: 'https://custom-explorer.com' },
+//   },
+//   testnet: true, // Set to false for mainnet
+// });
+
 const supportChains: Chain[] = [];
 // evm start
 supportChains.push(mainnet, base, arbitrum, polygon, lineaSepolia);
@@ -36,6 +57,12 @@ supportChains.push(mainnet, base, arbitrum, polygon, lineaSepolia);
 // solana start
 supportChains.push(solana);
 // solana end
+
+particleAuth.init({
+  projectId: projectId,
+  clientKey: clientKey,
+  appId: appId,
+});
 
 export const config = createConfig({
   projectId,

@@ -8,7 +8,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { collection, query, where, orderBy, onSnapshot, doc, limit, startAfter, getDocs, updateDoc, addDoc } from 'firebase/firestore';
 import Image from 'next/image';
-// import useAuth from '@/lib/hooks/useAuth';
 import AIInputCard from '@/components/ai-chat/InputCard';
 import MessageList from '@/components/ai-chat/MessageList';
 import TradeValuesCard from '@/components/ai-chat/TradeValues';

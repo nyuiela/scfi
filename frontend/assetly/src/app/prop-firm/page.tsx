@@ -31,7 +31,7 @@ interface TraderAllocation {
 }
 
 // Simulate API delay
-const FETCH_DELAY = 1500;
+const FETCH_DELAY = 150;
 
 // Mock data generators
 const generateMockMetrics = (): PoolMetrics => ({

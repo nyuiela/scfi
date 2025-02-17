@@ -1,0 +1,25 @@
+{
+  "symbol": "AAPL",
+  "lastPrice": 192.53,
+  "predictedPrice": 187.0245377159119,
+  "signals": {
+    "type": "SELL",
+    "entry": 192.53,
+    "prediction": 187.0245377159119,
+    "stopLoss": 196.38060000000002,
+    "takeProfit": 186.7541,
+    "potentialReturn": 2.859534765536857,
+    "confidence": "MEDIUM"
+  },
+  "modelMetrics": {
+    "lookbackPeriod": 30,
+    "iterations": 2000,
+    "learningRate": 0.003,
+    "hiddenLayers": [
+      16,
+      16,
+      8
+    ]
+  },
+  "timestamp": "2025-02-17T13:00:15.506Z"
+}

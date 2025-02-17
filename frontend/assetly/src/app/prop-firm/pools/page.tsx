@@ -39,7 +39,7 @@ interface AllocationRequest {
 }
 
 // Simulate API delay
-const OPERATION_DELAY = 1000;
+const OPERATION_DELAY = 100;
 
 // Mock data generators
 const generateMockPools = (): Pool[] => [
