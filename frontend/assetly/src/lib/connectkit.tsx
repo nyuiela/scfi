@@ -14,7 +14,7 @@ import { EntryPosition, wallet } from '@particle-network/connectkit/wallet';
 import { aa } from '@particle-network/connectkit/aa';
 // aa end
 // evm start
-import { arbitrum, base, lineaSepolia, mainnet, polygon } from '@particle-network/connectkit/chains';
+import { arbitrum, base, defineChain, lineaSepolia, mainnet, polygon, scroll, scrollSepolia, sonic } from '@particle-network/connectkit/chains';
 import { evmWalletConnectors } from '@particle-network/connectkit/evm';
 // evm end
 // solana start
@@ -31,28 +31,28 @@ if (!projectId || !clientKey || !appId) {
   throw new Error('Please configure the Particle project in .env first!');
 }
 
-// const customChain = defineChain({
-//   id: 123456, // Unique chain ID
-//   name: 'Custom Chain',
-//   nativeCurrency: {
-//     decimals: 18,
-//     name: 'Custom Token',
-//     symbol: 'CTK',
-//   },
-//   rpcUrls: {
-//     default: {
-//       http: ['https://custom-rpc-url.com'],
-//     },
-//   },
-//   blockExplorers: {
-//     default: { name: 'Explorer', url: 'https://custom-explorer.com' },
-//   },
-//   testnet: true, // Set to false for mainnet
-// });
+const sonicChain = defineChain({
+  id: 57054 ,
+  name: 'Sonic Blaze Testnet',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Sonic',
+    symbol: 'S',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://rpc.blaze.soniclabs.com/'],
+    },
+  },
+  blockExplorers: {
+    default: { name: 'Explorer', url: 'https://testnet.soniclabs.com/' },
+  },
+  testnet: true, // Set to false for mainnet
+});
 
 const supportChains: Chain[] = [];
 // evm start
-supportChains.push(mainnet, base, arbitrum, polygon, lineaSepolia);
+supportChains.push(mainnet, base, arbitrum, polygon, lineaSepolia, arbitrum, sonic, scroll, scrollSepolia, sonicChain);
 // evm end
 // solana start
 supportChains.push(solana);
