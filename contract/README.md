@@ -29,7 +29,9 @@
 --> lending
 
 - borrow against collateral
-- --> liquidization
+-
+
+--> liquidization
 
 - rolling method to extend loan and increase interest as incentive
 - liquidization of loan...
@@ -147,32 +149,28 @@ rwa -> RWAManager -> OracleManager
 - borrow() // rwa
 - repay() // loanId;
 -
-
 ## today tomorrow
-
 - subs structure for rwacontract
 - lending logic
 - reveserpool --- lp
 
 ## borrowing logic
-
--- function addCollateral()
+-- function addCollateral() 
 -- function borrow()
 -- function repay()
 -- getLoanDetail(uint256)
 -- calculateLoanAmount() // colateralValue .....
 -- liquidationThreshold()
--- \_lockRWA() internal...
--- \_releaseRWA() internal
+-- _lockRWA() internal...
+-- _releaseRWA() internal
 -- CalculateLPfee
 -- liquidationType1
 -- liquidationType2
 
 ## reserve logic (ERC20)
-
-----poool--- 5 lp totalSupply = 5000 1= 1000 2= 1500 3= 500 4=1800 5=200
--- function \_deposit() internal
--- function \_withdraw() internal
+----poool--- 5 lp  totalSupply = 5000  1= 1000 2= 1500 3= 500 4=1800 5=200
+-- function _deposit() internal
+-- function _withdraw() internal
 -- calculateFee
 -- calculatelpshare
 -- totalreservebalance
@@ -180,7 +178,48 @@ rwa -> RWAManager -> OracleManager
 -- getlp
 
 ## pool
-
 -- deposit()
 -- function withdraw
 -- distributelpfee
+        
+
+## 12/02/2025
+- BorrowLogic
+- ReserveLogic
+- InterestRateCalcultion
+- LpFeeCalculation
+
+
+__ reserve Logic 
+LP tokens minted = (ethdeposited/ total Eth in the pool) * Total LP Tokens Supply
+
+///////////////////////////////////////////////////
+### stock
+...api
+get all the stocks
+-- buy
+-- sell
+-- redeem(what they have gotten so far)
+
+-- gold , diamond etc
+
+### StockmarketPLace Contract
+
+-- create market // only contact owner / gold market
+-- partiscipate (buy)
+-- redeem 
+-- sell 
+You are amazing thank you 
+
+
+whitelist/delegation
+user can add n remove // set the permission for the ai
+// full permision
+// partial permission
+ai --- trade on behalfof 
+
+## todo
+-- incresing interst rate
+-- duration/ timebased 
+-- lp gain from borrow
+
