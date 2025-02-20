@@ -2,7 +2,7 @@
 pragma solidity 0.8.28;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@chainlink/st/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract Stocks is ERC20 {
     string public name;
@@ -44,19 +44,21 @@ contract Stocks is ERC20 {
         emit Sold(msg.sender, amount);
     }
 
-    function calculateShare(uint256 ethAmount) internal view returns (uint256) {
+    function calculateShare(uint256 ethAmount) public view returns (uint256) {
         uint256 price = getPrice();
         return (ethAmount * PRICE_PRECISION) / price;
     }
 
-    function calculateEth(uint256 shareAmount) internal view returns (uint256) {
+    function calculateEth(uint256 shareAmount) public view returns (uint256) {
         uint256 price = getPrice();
         return (shareAmount * price) / PRICE_PRECISION;
     }
 
     function getPrice() public view returns (uint256) {
-        (, int256 price, , , ) = priceFeed.latestRoundData();
+        (, int256 price, uint256 lateTimeUpdated, , ) = priceFeed
+            .latestRoundData();
         require(price > 0, "Invalid price");
+        require(block.timestamp > lastTimeUpdated, "Stock__stale_Prices");
         return uint256(price);
     }
 

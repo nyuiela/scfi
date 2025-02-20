@@ -6,6 +6,15 @@ interface IStocks {
     event Bought(address indexed buyer, uint256 amount);
     event Sold(address indexed seller, uint256 amount);
 
+    // State Variables (view functions)
+    function name() external view returns (string memory);
+
+    function apiLink() external view returns (string memory);
+
+    function isInitialized() external view returns (bool);
+
+    function PRICE_PRECISION() external pure returns (uint256);
+
     // Functions
     function initialize(
         string calldata _apiLink,
@@ -18,10 +27,30 @@ interface IStocks {
 
     function getPrice() external view returns (uint256);
 
-    // Getters
-    function name() external view returns (string memory);
+    // ERC20 Functions (inherited from ERC20)
+    function balanceOf(address account) external view returns (uint256);
 
-    function apiLink() external view returns (string memory);
+    function transfer(
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
-    function isInitialized() external view returns (bool);
+    function allowance(
+        address owner,
+        address spender
+    ) external view returns (uint256);
+
+    function approve(address spender, uint256 amount) external returns (bool);
+
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
+
+    function totalSupply() external view returns (uint256);
+
+    function calculateShare(uint256) external view returns (uint256);
+
+    function calculateEth(uint256) external view returns (uint256);
 }

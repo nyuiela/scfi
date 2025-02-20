@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity 0.8.28;
 import "src/core/market.sol";
-import "./stocks.sol";
+// import "./stocks.sol";
+import "../interface/IStocks.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AiDelegate is Ownable {
     Market market;
-    Stocks  stocks;
+    //  Stocks stocks;
+    IStocks stocks;
 
     struct RiskSettings {
         uint256 maxTradeLimit;
@@ -19,9 +21,9 @@ contract AiDelegate is Ownable {
         Both
     }
 
-    struct AiRating {
-        uint256[] ratings;
-    }
+    //  struct AiRating {
+    //      uint256[] ratings;
+    //  }
 
     struct Trade {
         uint256 marketId;
@@ -51,12 +53,19 @@ contract AiDelegate is Ownable {
     event RemoveAi(uint256 id);
     event PermissionChanged(uint256 id, Permissions permission);
     event Delegate(uint256 id, Permissions permission);
+    event BuySimulation(
+        uint256 _amountIn,
+        uint256 minAmountOut,
+        uint256 time,
+        uint256 share,
+        uint256 marketId
+    );
 
     AIAgent[] public agents;
     mapping(uint256 => uint256) public totalRating;
 
     function generateAI(
-        string _name,
+        string memory _name,
         bool _isActive,
         Permissions _permission
     ) external returns (uint256) {
@@ -72,27 +81,27 @@ contract AiDelegate is Ownable {
     function removeAI(uint256 _id) external {
         agents[_id] = agents[agents.length - 1];
         agents.pop();
-        emit RemovedAi(_id);
+        emit RemoveAi(_id);
     }
 
     function changePermission(
         uint256 _id,
         Permissions _permission
-    ) external OnlyOwner {
-        agents[_id].permission = _permission;
+    ) external onlyOwner {
+        agents[_id].permissions = _permission;
         emit PermissionChanged(_id, _permission);
     }
 
-    function rateAI(uint256 _id, uint256 _ratings) external re {
-        require(_rating <= 5, "AiDelegate__Rating_cant_be_More_Thand_5");
-        totalRatings[_id]++;
-        agents[_id].rating = agents[_id].rating + _ratings / totalRatings[_id];
+    function rateAI(uint256 _id, uint256 _ratings) external {
+        require(_ratings <= 5, "AiDelegate__Rating_cant_be_More_Thand_5");
+        totalRating[_id]++;
+        agents[_id].rating = agents[_id].rating + _ratings / totalRating[_id];
     }
 
     mapping(address => mapping(uint256 => Permissions)) public delegate;
 
-    function delegate(uint256 _id, Permissions _permission) external {
-        Permission memory perm = agents[_id].permission;
+    function delegateAi(uint256 _id, Permissions _permission) external {
+        Permissions perm = agents[_id].permissions;
         if (perm == Permissions.Both) {
             require(
                 _permission == Permissions.SalesOnly ||
@@ -113,7 +122,10 @@ contract AiDelegate is Ownable {
         emit Delegate(_id, _permission);
     }
 
-    function checkPermission(address owner, uint256 _id) external {
+    function checkPermission(
+        address owner,
+        uint256 _id
+    ) external view returns (Permissions) {
         return delegate[owner][_id];
     }
 
@@ -121,38 +133,56 @@ contract AiDelegate is Ownable {
 
     function setStopLoss() external {}
 
-modifier isValidAmount(uint256 amount) {
+    modifier isValidAmount(uint256 amount) {
         require(amount > 0, "Reserve__Cannot_Be_Zero");
         _;
     }
 
-    function simulateBuy(uint256 _amount, uint256 _marketId) public view returns(uint256) isValidAmount{
-       uint256 newPrice = stocks.getPrice(_amount); // get the new and old price and compare
-     return share   = stocks.calculateShare(_amount);
-   
+    function simulateBuy(
+        uint256 _amount,
+        uint256 _marketId
+    ) public view isValidAmount(_amount) returns (uint256 share) {
+        //  uint256 newPrice = stocks.getPrice(_amount); // get the new and old price and compare
+        Market.Stocks memory currentStock = market.getMarket(_marketId);
+        return
+            share = IStocks(currentStock.stockContract).calculateShare(_amount);
     }
 
-    function simulateSell(uint256 _share, uint256 _marketId) external view returns(uint256) isValidAmount {
-     return ethAmount = stocks.calculateEth(_share);
+    function simulateSell(
+        uint256 _share,
+        uint256 _marketId
+    ) external view isValidAmount(_share) returns (uint256 ethAmount) {
+        Market.Stocks memory currentStock = market.getMarket(_marketId);
+        return
+            ethAmount = IStocks(currentStock.stockContract).calculateEth(
+                _share
+            );
     }
 
-    function buy(uint256 _amountIn, uint267 minAmountOut,uint256 time ) external {
-        require(block.timestamp < time, "AiDelegate__time_passed");   
-     uint256 share =  simulateBuy(_amountIn, _marketId);
-     require(share >= minAmountOut, "AIDelegate__shares_too_low");
-      
-        
-        }
+    function _buy(
+        uint256 _amountIn,
+        uint256 minAmountOut,
+        uint256 time,
+        uint256 _marketId
+    ) external {
+        require(block.timestamp < time, "AiDelegate__time_passed");
+        uint256 share = simulateBuy(_amountIn, _marketId);
+
+        require(share >= minAmountOut, "AIDelegate__shares_too_low");
+
+        emit BuySimulation(_amountIn, minAmountOut, time, share, _marketId);
+        require(false, "simulated");
+    }
 
     function sell() external {}
 
     function getAgentDetails(
         uint256 _id
-    ) external view returns (AiAgent memory) {
+    ) external view returns (AIAgent memory) {
         return agents[_id];
     }
 
-    function getAgents() external view returns (AiAgent[] memory) {
+    function getAgents() external view returns (AIAgent[] memory) {
         return agents;
     }
 
