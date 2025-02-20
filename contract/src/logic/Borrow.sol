@@ -94,7 +94,10 @@ contract Borrow is Ownable, Pausable {
 
     function borrow(uint256 _collateralId, uint256 _amountToBorow) internal {
         // determine value before transfering token;
-        require(!isUnderLiquidation, "Borrow__CanNOt_Borrow_UnderLiquidation");
+        require(
+            !isUnderLiquidation[_collateralId],
+            "Borrow__CanNOt_Borrow_UnderLiquidation"
+        );
         Collateral storage _collateral = collateral[_collateralId];
         require(_collateral.owner == msg.sender, "Borrow__NOt_Owner");
         require(!_collateral.locked, "Borrow__Collateral_Locked");
@@ -116,12 +119,12 @@ contract Borrow is Ownable, Pausable {
             "Borrow__Value_Not_In_Range"
         );
         _loan.borrowed -= _amount;
-        
-          (msg.sender, address(reserve), _amount)
-       (bool success,) =  address(reserve).call{value: _amount}("");
-       require(success, "Borrow__Transfer_failed");
-     //   pklToken.transferFrom(msg.sender, address(reserve), msg.value);
 
+        //  (msg.sender, address(reserve), _amount)
+        (bool success, ) = address(reserve).call{value: _amount}("");
+        require(success, "Borrow__Transfer_failed");
+        //   pklToken.transferFrom(msg.sender, address(reserve), msg.value);
+        // unlock if user has repaid full loan amount
         emit Repayed(msg.sender, _amount);
     }
 
@@ -151,36 +154,46 @@ contract Borrow is Ownable, Pausable {
         fee = _newFee;
     }
 
-   // function _liquidationThreshold() internal returns (uint256) {}
+    // function _liquidationThreshold() internal returns (uint256) {}
 
-    function startLiquidation(address person, uint256 _collateralId) external{
+    function startLiquidation(uint256 _collateralId) external {
         // check this person healthfactor
         uint256 health = _calculateLiqudationHealthFactor(_collateralId);
-        require(health <  LIQUIDATION_THRESHOLD, "Borrow__Health_FActor_Not_Below_Threshold");
-         Collateral storage _collateral = collateral[_collateralId];
-         
+        require(
+            health < LIQUIDATION_THRESHOLD,
+            "Borrow__Health_FActor_Not_Below_Threshold"
+        );
+        //   Collateral storage _collateral = collateral[_collateralId];
+        liquidationType1(_collateralId); //for the sake of hackathon
         isUnderLiquidation[_collateralId] = true;
     }
 
-    function liquidationType1(uint256 _collateralId) external {
+    function liquidationType1(uint256 _collateralId) internal {
         // require is under liquidation
         Collateral storage _collateral = collateral[_collateralId];
-        require(isUnderLiquidation, "Borrow__NOt_Under_Liquidation");
+        require(
+            isUnderLiquidation[_collateralId],
+            "Borrow__NOt_Under_Liquidation"
+        );
         address prevOwner = _collateral.owner;
         _collateral.owner = address(this);
         emit Liquidated(prevOwner, address(this), _collateralId);
     }
 
+    function _calculateLiqudationHealthFactor(
+        uint256 _collateralId
+    ) public view returns (uint256) {
+        return
+            (currentCollateralValue[_collateralId] /
+                collateral[_collateralId].value) * 100;
+    }
 
-    function _calculateLiqudationHealthFactor(uint256 _collateralId) external returns(uint256){
-        (currentCollateralValue[_collateralId] / collateral[_collateralId].value) * 100;
-    } 
     // what happens after liquidation?  3
     // 1 . we auction your property to pay off your dept
     // 2. another can pay off your dept and take your prpety
     // 3. we allow you to buy back your stuff
-    // 0.8 
-        // factor below 0.8 then liqudation
+    // 0.8
+    // factor below 0.8 then liqudation
 
     function lockRWA(uint256 _id /* calls the RWA to lock RWA */) internal {
         rwa.lockRWA(_id);

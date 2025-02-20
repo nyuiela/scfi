@@ -11,8 +11,10 @@ contract ReserveLogic is Ownable, Pausable {
     uint256 public totalLiquidity;
     uint256 public lastInterestPeriod;
     uint256 public accumulatedFees;
+    uint256 public totalReserveBalance;
+    uint256 public FEE_PERCENTAGE = 1000;
     mapping(address => uint256) public liquidity;
-    
+
     mapping(address => uint256) private share;
 
     constructor(address _token) Ownable(msg.sender) {
@@ -31,10 +33,10 @@ contract ReserveLogic is Ownable, Pausable {
         uint256 lpInterestRate;
     }
 
-    function deposit(uint256 _amount) external payable isValidAmount(_amount) {
-        _amount = msg.value;
-        uint256 _share = _deposit(_amount);
-    }
+    //  function deposit(uint256 _amount) external payable isValidAmount(_amount) {
+    //      _amount = msg.value;
+    //      uint256 _share = _deposit(_amount);
+    //  }
 
     function _deposit(
         uint256 _amount
@@ -48,29 +50,36 @@ contract ReserveLogic is Ownable, Pausable {
         totalLiquidity += _amount;
         share[msg.sender] += klpTokensToMint;
         token.mint(msg.sender, klpTokensToMint);
-     //   token.mint(msg.sender, klpTokensToMint);
+        //   token.mint(msg.sender, klpTokensToMint);
         //   payable(msg.sender).transfer(msg.sender, address(this), _amount); // logic needs to be chcked
     }
 
     function _withdraw(uint256 _klpTokens) internal returns (uint256 _amount) {
         require(token.balanceOf(msg.sender) > _klpTokens);
         (_amount) = calculatelpshare(_klpTokens);
-        token.burn(_amount, msg.sender);
+        token.burn(msg.sender, _amount);
         share[msg.sender] -= _klpTokens; // underflow.
         //   payable(msg.sender).transfer(address(this), msg.sender, _amount); // logic needs to be checked
     }
 
-    function calculatelpshare(uint256 amount) internal returns (uint256 _share) {
+    function calculatelpshare(
+        uint256 amount
+    ) internal view returns (uint256 _share) {
         return _share = (amount * token.totalSupply()) / totalLiquidity;
     }
 
-    function totalreservebalance() external returns (uint256 _totalBalance) {
+    function totalreservebalance()
+        external
+        view
+        returns (uint256 _totalBalance)
+    {
         return totalLiquidity;
     }
 
     function calulateAccumulatedFee() internal {}
-      function calculateAccumulatedFee() internal  returns(uint256){
-        uint256 fee = (totalReserveBalance * FEE_PERCENTAGE) / 100;
+
+    function calculateAccumulatedFee() internal returns (uint256 fee) {
+        fee = (totalReserveBalance * FEE_PERCENTAGE) / 100;
         accumulatedFees += fee;
         totalReserveBalance -= fee;
     }
