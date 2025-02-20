@@ -41,14 +41,7 @@ contract Market is Ownable {
         delete stocks[stocks.length - 1];
     }
 
-    function buy() external{}
+    function getMarketValue() external {} // will return total sold and total bought like the market activeness
 
-    function sell() external{}
-
-    function getMarketValue() external{} // will return total sold and total bought like the market activeness
-
-  //  function getMarkets() external{}
-
-   function getValueOf() external{}
-
+    function getValueOf() external {}
 }

@@ -59,4 +59,6 @@ contract Stocks is ERC20 {
         require(price > 0, "Invalid price");
         return uint256(price);
     }
+
+    ///metadata
 }
