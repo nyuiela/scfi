@@ -161,20 +161,32 @@ contract AiDelegate is Ownable {
 
     function _buy(
         uint256 _amountIn,
-        uint256 minAmountOut,
+        uint256 minShareOut,
         uint256 time,
         uint256 _marketId
     ) external {
         require(block.timestamp < time, "AiDelegate__time_passed");
         uint256 share = simulateBuy(_amountIn, _marketId);
 
-        require(share >= minAmountOut, "AIDelegate__shares_too_low");
+        require(share >= minShareOut, "AIDelegate__shares_too_low");
+        IStocks(currentStock.stockContract).buy();
 
-        emit BuySimulation(_amountIn, minAmountOut, time, share, _marketId);
-        require(false, "simulated");
+        emit BuySimulation(_amountIn, minShareOut, time, share, _marketId);
+        require(false, "simulated"); // q what does this do?
     }
 
-    function sell() external {}
+    function sell(uint256 _shareIn,
+        uint256 minAmountOut,
+        uint256 time,
+        uint256 _marketId) external {
+
+       require(block.timestamp < time, "AiDelegate__time_passed");
+        uint256 ethAMountOut = simulateBuy(_shareIn, _marketId);
+         require(ethAMountOut >= minShareOut, "AIDelegate__amount_too_low");
+          IStocks(currentStock.stockContract).sell(_shareIn);
+          emit sellsimulation(_shareIn, minAmountOut, time, ethAMountOut, _marketId);
+
+        }
 
     function getAgentDetails(
         uint256 _id
