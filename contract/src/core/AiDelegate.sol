@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AiDelegate is Ownable {
     Market market;
+    Stocks  stocks;
 
     struct RiskSettings {
         uint256 maxTradeLimit;
@@ -120,11 +121,28 @@ contract AiDelegate is Ownable {
 
     function setStopLoss() external {}
 
-    function simulateBuy() external {}
+modifier isValidAmount(uint256 amount) {
+        require(amount > 0, "Reserve__Cannot_Be_Zero");
+        _;
+    }
 
-    function simulateSell() external {}
+    function simulateBuy(uint256 _amount, uint256 _marketId) public view returns(uint256) isValidAmount{
+       uint256 newPrice = stocks.getPrice(_amount); // get the new and old price and compare
+     return share   = stocks.calculateShare(_amount);
+   
+    }
 
-    function buy() external {}
+    function simulateSell(uint256 _share, uint256 _marketId) external view returns(uint256) isValidAmount {
+     return ethAmount = stocks.calculateEth(_share);
+    }
+
+    function buy(uint256 _amountIn, uint267 minAmountOut,uint256 time ) external {
+        require(block.timestamp < time, "AiDelegate__time_passed");   
+     uint256 share =  simulateBuy(_amountIn, _marketId);
+     require(share >= minAmountOut, "AIDelegate__shares_too_low");
+      
+        
+        }
 
     function sell() external {}
 
