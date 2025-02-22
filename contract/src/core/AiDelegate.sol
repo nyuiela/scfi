@@ -210,10 +210,15 @@ contract AiDelegate is Ownable {
     function getAgents() external view returns (AIAgent[] memory) {
         return agents;
     }
+//why dont you feel like it? idk i keep pushing people away, i'm tired of that. but whatever i'm doing aren't helping so yeah. i'm going offline after this.
+    //function getmarketperformance() external view {}
+// really wished i coud he, but you dont wanna talk about it. sure. ok
 
-    function getmarketperformance() external view {}
+//todo
+// oracle price feed. installing chainlink (the proper way)
+// - script - deployment : then lets start with this? we can't run since we haven't installed the chainlink lib ok
+// we can make an orcale factory / idk something like that, chalink has something for that yep, but i don't know how.. 
 
-    ///// zk ///////
     function proofOfWork() external {}
 
     function getProofWork() external {}
