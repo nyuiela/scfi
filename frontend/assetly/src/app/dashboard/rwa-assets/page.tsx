@@ -142,7 +142,7 @@ export default function RWAAssetsPage() {
     <MaxWidthWrapper>
         <div className="container mx-auto py-8 mb-40 -mt-20">
         <Header />
-      <h1 className="text-3xl font-bold mb-8">Real World Assets</h1>
+      <h1 className="text-3xl font-bold mb-8 mt-10">Real World Assets</h1>
       
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

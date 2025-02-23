@@ -21,6 +21,7 @@ const Header = () => {
     { href: '/about', label: 'About' },
     { href: '/ai-chats', label: 'ChatBot' },
     { href: '/prop-firm', label: 'Pool' },
+    { href: '/dashboard/rwa-assets', label: 'Dashboard' },
   ];
 
   return (
@@ -28,7 +29,7 @@ const Header = () => {
       <MaxWidthWrapper>
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2" prefetch={true}>
             <Image 
               src="https://i.imgur.com/IcF1dcF.png" 
               alt="Logo" 

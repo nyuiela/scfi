@@ -105,3 +105,12 @@ body {
   background: rgba(10, 152, 136, 0.879); /* Your desired thumb color */
   border-radius: 5px; /* Rounded corners */
 }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

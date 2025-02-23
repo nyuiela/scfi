@@ -1,4 +1,4 @@
-import { Plus, Home, Album, Pencil, ChartCandlestick, Settings } from "lucide-react"
+import { Plus, Home, Album, Pencil, ChartCandlestick, Settings, BotIcon } from "lucide-react"
 
 import {
   Sidebar,
@@ -10,55 +10,61 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
 
 // Menu items.
 const items = [
     {
     title: "View Aseets",
-    url: "/",
+    url: "/dashboard/rwa-assets",
     icon: Home,
     },
   {
     title: "Add New Asset",
-    url: "/",
+    url: "/dashboard/add-asset",
     icon: Plus,
   },
   {
     title: "Edit Asset",
-    url: "/",
+    url: "/dashboard/add-asset",
     icon: Pencil,
   },
   {
     title: "View Created Assets",
-    url: "/",
+    url: "/dashboard/rwa-assets",
     icon: Album,
   },
   {
     title: "Owned Assets",
-    url: "/",
+    url: "/dashboard/rwa-assets",
     icon: Settings,
   },  
   {
     title: "Asset Trading",
-    url: "/",
+    url: "/dashboard/rwa-assets",
     icon: ChartCandlestick,
+  },  
+  {
+    title: "AI Settings",
+    url: "/dashboard/ai-management",
+    icon: BotIcon,
   },  
 ]
 export function AppSidebar() {
   return (
     <Sidebar className="bg-slate-950" collapsible='icon'>
-      <SidebarContent className="bg-yellow-400">
-        <SidebarGroup className="bg-green-600">
+      <SidebarContent className="bg-green-400">
+        <SidebarGroup>
           <SidebarGroupLabel>Aseetly</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url} prefetch={true}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
